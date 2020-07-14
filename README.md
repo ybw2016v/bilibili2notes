@@ -6,7 +6,7 @@ A python bot which can transfer bilibili dynamic to Misskey notes
 
 -----
 
-> Warn: The code may be unconfortable , make sure that the emergency medicine is reachable before read the code.
+> Warn: The code may be uncomfortable , make sure that the emergency medicine is reachable before read the code.
 
 > 警告:源代码可能会引起不适，在阅读前准备好降压药。
 
