@@ -1,9 +1,33 @@
 import requests
 import json
+import time
 
-def post_dog(dog_p,dog_c):
-    url=dog_p.PostUrl
+def new_post_dog(dog_p,dog_c,dog_img_list):
+    pic_url=dog_p.PostUrl+'api/drive/files/create'
     key=dog_p.ApiKey
-    payload={'text':dog_c,"localOnly":False,"visibility":"public","viaMobile":False,"i":key}
+    pic_dog_list=[]
+    for dog_pic in dog_img_list[:4]:
+        print(dog_pic)
+        dog_img_id_l=dog_img_id(dog_pic,pic_url,key)
+        pic_dog_list.append(dog_img_id_l)
+    post_dog(dog_p,dog_c,pic_dog_list)
+    pass
+
+def post_dog(dog_p,dog_c,dog_f):
+    url=dog_p.PostUrl+'api/notes/create'
+    key=dog_p.ApiKey
+    payload={'text':dog_c,"localOnly":False,"visibility":"public","fileIds":dog_f,"viaMobile":False,"i":key}
     res=requests.post(url,json=payload)
+    # print(payload)
     return res.text
+
+def dog_img_id(url,purl,key):
+    pic_dog=requests.get(url)
+    data={'i':key,'force':'true'}
+    now_doge = time.gmtime()
+    now_doge_w = int(time.mktime(now_doge))
+    name_dog='upload_{}.jpg'.format(now_doge_w)
+    files={'file': (name_dog,pic_dog.content, 'image/png')}
+    sdo=requests.post(purl,data=data,files=files)
+    print('upload {} finished'.format(now_doge_w))
+    return sdo.json()['id']

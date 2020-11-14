@@ -5,7 +5,7 @@ import time
 from core import core_dog
 from get_dog_info import get_dog
 from par_dog_conf import Pardogconf
-from post_notes import post_dog
+from post_notes import *
 from xml_dog import dog_p
 
 timef = open('./last', 'r')
@@ -34,11 +34,12 @@ for conf_file in dog_conf_files:
     doglist = dog_p(dogxml)
     for doge in doglist:
         if int(doge['pubDate']) > last_dog_time:
-            post_dog(dogconf, (str(dogconf.Pex)+core_dog(doge)+str(dogconf.Afr)))
+            new_post_dog(dogconf, (str(dogconf.Pex)+core_dog(doge)[0]+str(dogconf.Afr)),core_dog(doge)[1])
             print('好像是还没有发布过:'+str(doge['pubDate']))
         else:
             print('好像是已经发布过了:'+str(doge['pubDate']))
             pass
+        # sk=input('ss')
     time_dog[dogconf.DogName] = int(doglist[0]['pubDate'])+1
 
 
