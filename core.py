@@ -29,7 +29,7 @@ def core_dog(dog_cont):
     dog_url_str=''
     for item in dog_url:
         dog_url_str=dog_url_str+'\n'+item
-    dog_res_str='**'+dog_title_r+'**\n'+dog_neirong3+dog_url_str
+    dog_res_str='【'+dog_title_r+'】\n'+dog_neirong3+dog_url_str
     
     return [dog_res_str,dog_img1]
     pass
