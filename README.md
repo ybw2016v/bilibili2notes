@@ -48,9 +48,8 @@ git clone https://github.com/ybw2016v/bilibili2notes.git
 ;机器人名称
 
 
-PostUrl=https://example.com/api/notes/create
-;Misskey实例的发布api地址
-
+PostUrl=https://example.com/
+;Misskey实例url
 
 SouUrl=https://rsshub.app/bilibili/user/dynamic/167446465
 ;信息源
@@ -110,8 +109,8 @@ More than one configuration files can be arranged in `conf`. Each configuration 
 ;Bot name
 
 
-PostUrl=https://example.com/api/notes/create
-;the url of misskey api to post notes
+PostUrl=https://example.com/
+;the url of misskey instance to post notes
 
 
 SouUrl=https://rsshub.app/bilibili/user/dynamic/167446465
