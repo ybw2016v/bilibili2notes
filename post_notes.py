@@ -28,6 +28,7 @@ def dog_img_id(url,purl,key):
     now_doge_w = int(time.mktime(now_doge))
     name_dog='upload_{}.jpg'.format(now_doge_w)
     files={'file': (name_dog,pic_dog.content, 'image/png')}
+    print('upload {} starting'.format(now_doge_w))
     sdo=requests.post(purl,data=data,files=files)
     print('upload {} finished'.format(now_doge_w))
     return sdo.json()['id']
