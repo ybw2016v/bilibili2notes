@@ -32,7 +32,7 @@ for conf_file in dog_conf_files:
     last_dog_time = time_dog[dogconf.DogName]
     dogxml = get_dog(dogconf.SouUrl)
     doglist = dog_p(dogxml)
-    for doge in doglist:
+    for doge in doglist[::-1]:
         if int(doge['pubDate']) > last_dog_time:
             new_post_dog(dogconf, (str(dogconf.Pex)+core_dog(doge)[0]+str(dogconf.Afr)),core_dog(doge)[1])
             print('好像是还没有发布过:'+str(doge['pubDate']))
@@ -40,7 +40,10 @@ for conf_file in dog_conf_files:
             print('好像是已经发布过了:'+str(doge['pubDate']))
             pass
         # sk=input('ss')
-    time_dog[dogconf.DogName] = int(doglist[0]['pubDate'])+1
+        time_dog[dogconf.DogName] = int(doge['pubDate'])+1
+        jr = open('last.json', 'w')
+        jr.write(json.dumps(time_dog))
+        jr.close()
 
 
 # ssa=post_dog(dogconf,"测试\n由python发送")
