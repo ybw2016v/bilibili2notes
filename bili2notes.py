@@ -6,8 +6,8 @@ from core import core_dog
 from get_dog_info import get_dog
 from par_dog_conf import Pardogconf
 from post_notes import *
-from xml_dog import dog_p
 from rm_img import rm_exp_pic
+from xml_dog import dog_p
 
 timef = open('./last', 'r')
 dogtime = int(timef.read())
@@ -18,10 +18,10 @@ time_dog_json = time_dog_file.read()
 time_dog_file.close()
 time_dog = json.loads(time_dog_json)
 
-pic_time_dog_file=open('./db.json', 'r')
-pic_time_dog_json=pic_time_dog_file.read()
+pic_time_dog_file = open('./db.json', 'r')
+pic_time_dog_json = pic_time_dog_file.read()
 pic_time_dog_file.close()
-pic_time_dog=json.loads(pic_time_dog_json)
+pic_time_dog = json.loads(pic_time_dog_json)
 
 
 dog_conf_files = os.listdir('conf')
@@ -37,42 +37,33 @@ for conf_file in dog_conf_files:
     if dogconf.DogName in pic_time_dog:
         print('还是存在')
     else:
-        pic_time_dog[dogconf.DogName]={}
-        pic_w=json.dumps(pic_time_dog)
-        pic_time_dog_file=open('./db.json', 'w')
-        pic_time_dog_json=pic_time_dog_file.write(pic_w)
+        pic_time_dog[dogconf.DogName] = {}
+        pic_w = json.dumps(pic_time_dog)
+        pic_time_dog_file = open('./db.json', 'w')
+        pic_time_dog_json = pic_time_dog_file.write(pic_w)
         pic_time_dog_file.close()
-        # pic_time_dog=json.loads(pic_time_dog_json)
         print('不存在，被创建')
-
-    # sd=input()
     print(dogconf.DogName)
     print(dogconf.Extime)
-    if int(dogconf.Extime)>0:
+    if int(dogconf.Extime) > 0:
         print('开始过期检查')
         rm_exp_pic(dogconf)
         pass
-    # rm_exp_pic(dogconf)
     last_dog_time = time_dog[dogconf.DogName]
     dogxml = get_dog(dogconf.SouUrl)
     doglist = dog_p(dogxml)
     for doge in doglist[::-1]:
         if int(doge['pubDate']) > last_dog_time:
-            new_post_dog(dogconf, (str(dogconf.Pex)+core_dog(doge)[0]+str(dogconf.Afr)),core_dog(doge)[1])
+            new_post_dog(dogconf, (str(dogconf.Pex)+core_dog(doge)
+                                   [0]+str(dogconf.Afr)), core_dog(doge)[1])
             print('好像是还没有发布过:'+str(doge['pubDate']))
         else:
             print('好像是已经发布过了:'+str(doge['pubDate']))
             pass
-        # sk=input('ss')
         time_dog[dogconf.DogName] = int(doge['pubDate'])+1
         jr = open('last.json', 'w')
         jr.write(json.dumps(time_dog))
         jr.close()
-
-
-# ssa=post_dog(dogconf,"测试\n由python发送")
-# print(ssa)
-
 
 timef = open('last', 'w')
 now_dog = time.gmtime()
