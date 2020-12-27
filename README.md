@@ -64,7 +64,10 @@ Pex=
 
 Afr=
 ;Afr=本条消息由机器人转发
-;机器人发布前缀，无特殊需求留空
+;机器人发布后缀，无特殊需求留空
+
+Extime=1209600
+;设置图片的过期时间，超过1209600秒之后的过期图片将会被删除，以节约存储空间，如不清除历史图片，可设置为-1
 
 ```
 
@@ -125,6 +128,9 @@ Pex=
 
 Afr=
 ;The postfix of the notes which will be added to the end of notes,it might be null if  there is no special needs
+
+Extime=1209600
+;The time of image. All images which upload before this time (secend) will be deleted. Set -1 to disable this.
 
 ```
 

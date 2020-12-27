@@ -1,6 +1,6 @@
 #!python3
-import xml.etree.ElementTree as ET
 import time
+import xml.etree.ElementTree as ET
 
 
 def dog_cov_time(dog_time_str):
