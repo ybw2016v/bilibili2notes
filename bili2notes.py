@@ -7,6 +7,7 @@ from get_dog_info import get_dog
 from par_dog_conf import Pardogconf
 from post_notes import *
 from xml_dog import dog_p
+from rm_img import rm_exp_pic
 
 timef = open('./last', 'r')
 dogtime = int(timef.read())
@@ -44,8 +45,14 @@ for conf_file in dog_conf_files:
         # pic_time_dog=json.loads(pic_time_dog_json)
         print('不存在，被创建')
 
-    sd=input()
+    # sd=input()
     print(dogconf.DogName)
+    print(dogconf.Extime)
+    if int(dogconf.Extime)>0:
+        print('开始过期检查')
+        rm_exp_pic(dogconf)
+        pass
+    # rm_exp_pic(dogconf)
     last_dog_time = time_dog[dogconf.DogName]
     dogxml = get_dog(dogconf.SouUrl)
     doglist = dog_p(dogxml)

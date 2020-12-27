@@ -7,6 +7,15 @@ dog_img=re.compile('<img src="(.*?)"')
 aid_dog=re.compile('aid=([0-9]*)')
 dog_rm_band=re.compile('<.*>')
 dog_re_title=re.compile('\n')
+dog_re_j=re.compile('#(.*?)#')
+
+def add_jing(matched):
+        print(matched)
+        dog_str = matched.group()
+        dog_str = str(dog_str)
+        # intValue[:-1]=' '
+        dog_str = dog_str[:-1]+' '
+        return dog_str
 
 def core_dog(dog_cont):
     dog_url=[]
@@ -26,10 +35,12 @@ def core_dog(dog_cont):
         dog_url.append('https://www.bilibili.com/video/av'+dog_aid[0]+'/')
     dog_url.append(dog_cont['link'])
     dog_neirong3=dog_rm_band.sub('',dog_neirong2)
+    dog_neirong4=dog_re_j.sub(add_jing,dog_neirong3)
+    dog_title_r2=dog_re_j.sub(add_jing,dog_title_r)
     dog_url_str=''
     for item in dog_url:
         dog_url_str=dog_url_str+'\n'+item
-    dog_res_str='【'+dog_title_r+'】\n'+dog_neirong3+dog_url_str
+    dog_res_str='【'+dog_title_r2+'】\n'+dog_neirong4+dog_url_str
     
     return [dog_res_str,dog_img1]
     pass

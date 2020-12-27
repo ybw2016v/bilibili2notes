@@ -19,5 +19,5 @@ class Pardogconf(object):
         self.SouUrl=conf_dog_items.get('SouUrl')        
         self.Pex=conf_dog_items.get('Pex')
         self.Afr=conf_dog_items.get('Afr')
-        self.Afr=conf_dog_items.get('Extime')
+        self.Extime=conf_dog_items.get('Extime')
     pass
