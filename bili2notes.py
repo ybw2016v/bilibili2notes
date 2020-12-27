@@ -17,6 +17,11 @@ time_dog_json = time_dog_file.read()
 time_dog_file.close()
 time_dog = json.loads(time_dog_json)
 
+pic_time_dog_file=open('./db.json', 'r')
+pic_time_dog_json=pic_time_dog_file.read()
+pic_time_dog_file.close()
+pic_time_dog=json.loads(pic_time_dog_json)
+
 
 dog_conf_files = os.listdir('conf')
 
@@ -28,6 +33,18 @@ for conf_file in dog_conf_files:
     else:
         time_dog[dogconf.DogName] = dogtime
         print('不存在，被创建')
+    if dogconf.DogName in pic_time_dog:
+        print('还是存在')
+    else:
+        pic_time_dog[dogconf.DogName]={}
+        pic_w=json.dumps(pic_time_dog)
+        pic_time_dog_file=open('./db.json', 'w')
+        pic_time_dog_json=pic_time_dog_file.write(pic_w)
+        pic_time_dog_file.close()
+        # pic_time_dog=json.loads(pic_time_dog_json)
+        print('不存在，被创建')
+
+    sd=input()
     print(dogconf.DogName)
     last_dog_time = time_dog[dogconf.DogName]
     dogxml = get_dog(dogconf.SouUrl)
