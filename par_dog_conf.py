@@ -8,6 +8,7 @@ class Pardogconf(object):
     Pex=''
     Afr=''
     DogName=''
+    Extime=''
     def __init__(self,ini_dog_file):
         conf_dog=configparser.ConfigParser()
         conf_dog.read(ini_dog_file,encoding="utf-8")
@@ -18,4 +19,5 @@ class Pardogconf(object):
         self.SouUrl=conf_dog_items.get('SouUrl')        
         self.Pex=conf_dog_items.get('Pex')
         self.Afr=conf_dog_items.get('Afr')
+        self.Afr=conf_dog_items.get('Extime')
     pass
