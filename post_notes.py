@@ -37,11 +37,13 @@ def new_post_dog(dog_p, dog_c, dog_img_list):
 def post_dog(dog_p, dog_c, dog_f):
     url = dog_p.PostUrl+'api/notes/create'
     key = dog_p.ApiKey
-    payload = {'text': dog_c, "localOnly": False, "visibility": "public",
-               "fileIds": dog_f, "viaMobile": False, "i": key}
+    if dog_f==[]:
+        payload = {'text': dog_c, "localOnly": False, "visibility": "public", "viaMobile": False, "i": key}
+    else :
+        payload = {'text': dog_c, "localOnly": False, "visibility": "public","fileIds": dog_f, "viaMobile": False, "i": key}
     res = requests.post(url, json=payload)
-    # print(payload)
     return res.text
+
 
 
 def dog_img_id(url, purl, key):
