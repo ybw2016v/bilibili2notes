@@ -5,7 +5,7 @@ import configparser
 class Pardogconf(object):
     ApiKey = ''
     PostUrl = ''
-    SouUrl = ''
+    Uid = ''
     Pex = ''
     Afr = ''
     DogName = ''
@@ -18,7 +18,7 @@ class Pardogconf(object):
         conf_dog_items = conf_dog[self.DogName]
         self.ApiKey = conf_dog_items.get('ApiKey')
         self.PostUrl = conf_dog_items.get('PostUrl')
-        self.SouUrl = conf_dog_items.get('SouUrl')
+        self.Uid = conf_dog_items.get('Uid')
         self.Pex = conf_dog_items.get('Pex')
         self.Afr = conf_dog_items.get('Afr')
         self.Extime = conf_dog_items.get('Extime')

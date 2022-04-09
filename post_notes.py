@@ -8,7 +8,7 @@ def new_post_dog(dog_p, dog_c, dog_img_list):
     pic_url = dog_p.PostUrl+'api/drive/files/create'
     key = dog_p.ApiKey
     pic_dog_list = []
-    for dog_pic in dog_img_list[:4]:
+    for dog_pic in dog_img_list[:16]:
         print(dog_pic)
         dog_img_id_l = dog_img_id(dog_pic, pic_url, key)
         pic_dog_list.append(dog_img_id_l)

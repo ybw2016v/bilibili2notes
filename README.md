@@ -10,15 +10,19 @@ A python bot which can transfer bilibili dynamic to Misskey notes
 
 > 警告:源代码可能会引起不适，在阅读前准备好降压药。
 
-### 信息源
+移除了与RSSHub有关的部分，直接从B站API获取动态相关信息。没有必要为了简单获取B站动态信息而搞一个RSSHub。
 
-使用[RssHub](https://rsshub.app)作为B站动态的信息来源，如果RssHub主站连接不畅通可以更换其他RssHub站点，返回XML信息格式一致应该没问题。
+The code which is related to RSSHub is removed, and the information of the dynamic is obtained directly from Bilibili API. Because it is not necessary to install a RSSHub to get Bilibili dynamic information.
 
-### Information Source
+### ~~信息源~~
 
-The bilibili dynamic information is from [RssHub](https://rsshub.app) , which can return the bili dynamic in the xml format.Other website which can offer the information in the same format is also suitable.
+~~使用[RssHub](https://rsshub.app)作为B站动态的信息来源，如果RssHub主站连接不畅通可以更换其他RssHub站点，返回XML信息格式一致应该没问题。~~
 
-More Information about RssHub and bilibili [https://docs.rsshub.app/social-media.html#bilibili](https://docs.rsshub.app/social-media.html#bilibili).
+### ~~Information Source~~
+
+~~The bilibili dynamic information is from [RssHub](https://rsshub.app) , which can return the bili dynamic in the xml format.Other website which can offer the information in the same format is also suitable.~~
+
+~~More Information about RssHub and bilibili [https://docs.rsshub.app/social-media.html#bilibili](https://docs.rsshub.app/social-media.html#bilibili).~~
 
 ### 安装
 
@@ -51,8 +55,8 @@ git clone https://github.com/ybw2016v/bilibili2notes.git
 PostUrl=https://example.com/
 ;Misskey实例url
 
-SouUrl=https://rsshub.app/bilibili/user/dynamic/167446465
-;信息源
+Uid=167446465
+;B站用户uid
 
 
 ApiKey=Your ApiKey
@@ -116,8 +120,8 @@ PostUrl=https://example.com/
 ;the url of misskey instance to post notes
 
 
-SouUrl=https://rsshub.app/bilibili/user/dynamic/167446465
-;Information Source
+Uid=167446465
+;the uid of bilibili user
 
 ApiKey=Your ApiKey
 ;apikey

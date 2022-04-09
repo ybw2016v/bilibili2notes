@@ -20,7 +20,6 @@ def dog_p(dog_xml_str):
         dog_item_pubDate = dog_cov_time(dog_item.findtext('pubDate'))
         dog_item_guid = dog_item.findtext('guid')
         dog_item_link = dog_item.findtext('link')
-        dog_item_res = {'title': dog_item_title, 'description': dog_item_description,
-                        'pubDate': dog_item_pubDate, 'guid': dog_item_guid, 'link': dog_item_link}
+        dog_item_res = {'title': dog_item_title, 'description': dog_item_description,'pubDate': dog_item_pubDate, 'guid': dog_item_guid, 'link': dog_item_link}
         dog_res.append(dog_item_res)
     return dog_res
