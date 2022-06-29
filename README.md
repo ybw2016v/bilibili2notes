@@ -152,3 +152,8 @@ Add a task
 
 ```
 The script will run at 30 min in every hour.
+
+
+### Change Log
+
+* 2022-06-09 : 添加对256type的音频动态的支持
