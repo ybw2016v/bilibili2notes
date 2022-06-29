@@ -56,6 +56,15 @@ def bcard(type,card):
         for pitem in raw["image_urls"]:
             pic.append(pitem)
         return {"c":text,"url":url,"pic":pic}
+    if type==256:
+        # 音频动态
+        raw=json.loads(card)
+        auid=raw["id"]
+        text="【{}】\n{}".format(raw["title"],raw["intro"])
+        url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
+        pic.append(raw["cover"])
+        return {"c":text,"url":url,"pic":pic}
+
     else:
         raw=json.loads(card)
         print(raw)
