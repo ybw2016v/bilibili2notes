@@ -64,6 +64,10 @@ def bcard(type,card):
         url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
         pic.append(raw["cover"])
         return {"c":text,"url":url,"pic":pic}
+    if type==4308:
+        # 直播动态
+        # 应该忽略
+        return None
 
     else:
         raw=json.loads(card)
@@ -80,6 +84,8 @@ def bynamic(bdata):
     btype=bdata["desc"]["type"]
     pubtime=bdata["desc"]["timestamp"]
     res=bcard(btype,bdata["card"])
+    if res is None:
+        return None
     dyid=bdata["desc"]["dynamic_id_str"]
     res["url"].append("https://t.bilibili.com/"+dyid)
     if "orig_dy_id_str" in bdata["desc"]:
