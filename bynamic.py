@@ -72,7 +72,7 @@ def bcard(type,card):
     else:
         raw=json.loads(card)
         print(raw)
-        return {"c":"未知类型{}\n需要处理 @dogcraft@m.dogcraft.top".format(type),"url":[],"pic":[]}
+        return {"c":"未知类型{}\n请反馈至 https://github.com/ybw2016v/bilibili2notes/issues".format(type),"url":[],"pic":[]}
 
     
 
