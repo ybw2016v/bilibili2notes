@@ -41,7 +41,7 @@ for conf_file in dog_conf_files:
         rm_exp_pic(dogconf)
         pass
     last_dog_time = time_dog[dogconf.DogName]
-    doglist=getdynamic(dogconf.Uid)
+    doglist=getdynamic(dogconf.Uid, dogconf.Cookie)
     for doge in doglist[::-1]:
         if int(doge['time']) > last_dog_time:
             text,pic=core_dog(doge)

@@ -10,6 +10,7 @@ class Pardogconf(object):
     Afr = ''
     DogName = ''
     Extime = ''
+    Cookie = ''
 
     def __init__(self, ini_dog_file):
         conf_dog = configparser.ConfigParser()
@@ -22,4 +23,5 @@ class Pardogconf(object):
         self.Pex = conf_dog_items.get('Pex')
         self.Afr = conf_dog_items.get('Afr')
         self.Extime = conf_dog_items.get('Extime')
+        self.Cookie = conf_dog_items.get('Cookie')
     pass
