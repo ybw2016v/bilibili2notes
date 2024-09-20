@@ -19,17 +19,19 @@ def bcard(type,card):
         # 转发动态卡片
         raw=json.loads(card)
         rtype=raw["item"]["orig_type"]
-
         text=raw["item"]["content"]
-        orange_text=raw["origin"]
-        subres=bcard(rtype,orange_text)
+        orange_text = raw.get("origin")
 
-        if subres is not None:
-            c = text + "RN:\n" + subres.get("c", "Nothing")
-            url.extend(subres.get("url", []))
-            pic.extend(subres.get("pic", []))
+        if orange_text is not None:
+            subres = bcard(rtype, orange_text)
+            if subres is not None:
+                c = text + "RN:\n" + subres.get("c", "Nothing")
+                url.extend(subres.get("url", []))
+                pic.extend(subres.get("pic", []))
+            else:
+                c = text + "RN:\n(转发内容不支持解析)"
         else:
-            c = text + "RN:\n(转发内容不支持解析)"
+            c = text + "RN:\n(原始内容为空或不支持解析)"
 
         return {"c":c,"url":url,"pic":pic}
     if type==2:
@@ -69,7 +71,7 @@ def bcard(type,card):
         url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
         pic.append(raw["cover"])
         return {"c":text,"url":url,"pic":pic}
-    if type==4308:
+    if type==4308 or type == 0:
         # 直播动态
         # 应该忽略
         return None
