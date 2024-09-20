@@ -23,9 +23,14 @@ def bcard(type,card):
         text=raw["item"]["content"]
         orange_text=raw["origin"]
         subres=bcard(rtype,orange_text)
-        c=text+"RN:\n"+subres["c"]
-        url.extend(subres["url"])
-        pic.extend(subres["pic"])
+
+        if subres is not None:
+            c = text + "RN:\n" + subres.get("c", "Nothing")
+            url.extend(subres.get("url", []))
+            pic.extend(subres.get("pic", []))
+        else:
+            c = text + "RN:\n(转发内容不支持解析)"
+
         return {"c":c,"url":url,"pic":pic}
     if type==2:
         # 相册投稿
