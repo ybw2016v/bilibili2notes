@@ -43,7 +43,7 @@ def bcard(type,card):
         # 视频动态
         raw=json.loads(card)
         avh=raw["aid"]
-        url.append("视频地址: https://api.neko.red/b/av"+str(avh))
+        url.append("视频地址: https://www.bilibili.com/video/av"+str(avh))
         text="【{}】\n{}".format(raw["title"],raw["dynamic"])
         pic.append(raw["pic"])
         return {"c":text,"url":url,"pic":pic}

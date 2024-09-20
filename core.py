@@ -39,7 +39,7 @@ def core_dog(dog_cont):
     # dog_url.append(dog_cont['link'])
     dog_neirong3 = dog_rm_band.sub('', dog_neirong2)
     dog_neirong4 = dog_re_j.sub(add_jing, dog_neirong3)
-    dog_neirong5 = aid_dog.sub('https://api.neko.red/b/',dog_neirong4)
+    dog_neirong5 = aid_dog.sub('https://www.bilibili.com/video/',dog_neirong4)
     # dog_title_r2 = dog_re_j.sub(add_jing, dog_title_r)
     dog_url_str = ''
     for item in dog_cont['url']:

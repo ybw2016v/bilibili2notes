@@ -13,7 +13,7 @@ class Pardogconf(object):
     Cookie = ''
 
     def __init__(self, ini_dog_file):
-        conf_dog = configparser.ConfigParser(interpolation=None)
+        conf_dog = configparser.ConfigParser(interpolation = None)
         conf_dog.read(ini_dog_file, encoding="utf-8")
         self.DogName = conf_dog.sections()[0]
         conf_dog_items = conf_dog[self.DogName]
