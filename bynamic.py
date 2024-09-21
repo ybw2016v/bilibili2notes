@@ -1,23 +1,17 @@
 import json
 
-def bpic(picture):
-    """
-    解析b站API返回图片
-    """
-    res=[]
-    for item in picture:
-        res.append(item["img_src"])
-    return res
-
 def bcard(type,card):
     """
     解析b站API返回卡片数据
     """
     url=[]
     pic=[]
+    if isinstance(card, dict):
+        raw = card
+    else:
+        raw = json.loads(card)
     if type == "DYNAMIC_TYPE_FORWARD":
         # 转发动态卡片
-        raw=json.loads(card)
         rtype=raw["item"]["orig_type"]
         text=raw["item"]["content"]
         orange_text = raw.get("origin")
@@ -38,7 +32,6 @@ def bcard(type,card):
         return {"c":c,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_DRAW":
         # 相册投稿
-        raw=json.loads(card)
         text=raw["item"]["description"]
         for pitem in raw["item"]["pictures"]:
             pic.append(pitem["img_src"])
@@ -46,13 +39,11 @@ def bcard(type,card):
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_WORD":
         # 文字动态
-        raw=json.loads(card)
         text=raw["item"]["content"]
         print("4")
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_AV11":
         # 视频动态
-        raw=json.loads(card)
         avh=raw["aid"]
         url.append("视频地址: https://www.bilibili.com/video/av"+str(avh))
         text="【{}】\n{}".format(raw["title"],raw["dynamic"])
@@ -61,17 +52,16 @@ def bcard(type,card):
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_ARTICLE":
         # 专栏动态
-        raw=json.loads(card)
-        aid=raw["id"]
-        text="【{}】\n{}".format(raw["title"],raw['summary'])
+        abase = raw["major"]["article"]
+        aid = abase["id"]
+        text="【{}】\n{}".format(abase["title"],abase['desc'])
         url.append("专栏地址: https://www.bilibili.com/read/cv"+str(aid))
-        for pitem in raw["image_urls"]:
+        for pitem in abase["covers"][0]:
             pic.append(pitem)
         print("64")
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_MUSIC":
         # 音频动态
-        raw=json.loads(card)
         auid=raw["id"]
         text="【{}】\n{}".format(raw["title"],raw["intro"])
         url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
@@ -85,7 +75,6 @@ def bcard(type,card):
         return None
 
     else:
-        raw=json.loads(card)
         print(raw)
         print("Unknown")
         return {"c":"未知类型{}\n请反馈至 https://github.com/ybw2016v/bilibili2notes/issues".format(type),"url":[],"pic":[]}
@@ -97,7 +86,7 @@ def bynamic(bdata):
     """
     解析b站动态数据API
     """
-    if "module_tag" in bdata.get("modules", {}) or not bdata["modules"]["visible"]:
+    if "置顶" not in bdata.get("modules", {}).get("module_tag", {}).get("text", "") or (bdata.get("visible", True) is not True):
         btype=bdata["type"]
         pubtime=bdata["modules"]["module_author"]["pub_ts"]
         res=bcard(btype,bdata["modules"]["module_dynamic"])
@@ -114,3 +103,5 @@ def bynamic(bdata):
 
     else:
         print("置顶或不可见")
+        print( bool("置顶" in bdata.get("modules", {}).get("module_tag", {}).get("text", "") ))
+        print(bdata.get("visible", True))
