@@ -6,21 +6,17 @@ from core import core_dog
 from par_dog_conf import Pardogconf
 from post_notes import *
 from rm_img import rm_exp_pic
-from bd import getdynamic
+from bd import getdynamic, getCookie
 
-timef = open('./last', 'r')
-dogtime = int(timef.read())
-timef.close()
+with open('./last', 'r') as timef:
+    dogtime = int(timef.read())
 
-time_dog_file = open('./last.json', 'r')
-time_dog_json = time_dog_file.read()
-time_dog_file.close()
-time_dog = json.loads(time_dog_json)
+with open('./last.json', 'r') as time_dog_file:
+    time_dog = json.loads(time_dog_file.read())
 
-pic_time_dog_file = open('./db.json', 'r')
-pic_time_dog_json = pic_time_dog_file.read()
-pic_time_dog_file.close()
-pic_time_dog = json.loads(pic_time_dog_json)
+with open('./db.json', 'r') as pic_time_dog_file:
+    pic_time_dog = json.loads(pic_time_dog_file.read())
+
 dog_conf_files = os.listdir('conf')
 
 for conf_file in dog_conf_files:
@@ -41,28 +37,29 @@ for conf_file in dog_conf_files:
         rm_exp_pic(dogconf)
         pass
     last_dog_time = time_dog[dogconf.DogName]
-    doglist=getdynamic(dogconf.Uid)
+    if dogconf.Cookie:
+        doglist = getdynamic(dogconf.Uid, dogconf.Cookie)
+    else:
+        doglist = getdynamic(dogconf.Uid, getCookie())
     for doge in doglist[::-1]:
         if int(doge['time']) > last_dog_time:
-            text,pic=core_dog(doge)
-            new_post_dog(dogconf, (str(dogconf.Pex)+text+str(dogconf.Afr)), pic)
-            print('好像是还没有发布过:'+str(doge['time']))
+            text,pic = core_dog(doge)
+            new_post_dog(dogconf, (str(dogconf.Pex) + text + str(dogconf.Afr)), pic)
+            print('好像是还没有发布过:' + str(doge['time']))
         else:
-            print('好像是已经发布过了:'+str(doge['time']))
+            print('好像是已经发布过了:' + str(doge['time']))
             pass
-        time_dog[dogconf.DogName] = int(doge['time'])+1
-        jr = open('last.json', 'w')
+        time_dog[dogconf.DogName] = int(doge['time']) +1
+
+    with open('last.json', 'w') as jr:
         jr.write(json.dumps(time_dog))
-        jr.close()
 
-timef = open('last', 'w')
-now_dog = time.gmtime()
-now_dog_w = int(time.mktime(now_dog))
-timef.write(str(now_dog_w))
-timef.close()
+with open('last', 'w') as timef:
+    now_dog = time.gmtime()
+    now_dog_w = int(time.mktime(now_dog))
+    timef.write(str(now_dog_w))
 
-jr = open('last.json', 'w')
-jr.write(json.dumps(time_dog))
-jr.close()
+with open('run.log', 'w') as log_file:
+    log_file.write(time.strftime("%Y-%m-%d %H:%M:%S", now_dog))
 
 os.system("date > run.log")
