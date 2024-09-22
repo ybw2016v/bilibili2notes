@@ -1,20 +1,19 @@
 import json
 
-def bcard(type,card):
+def bcard(type, card):
     """
     解析b站API返回卡片数据
     """
     url=[]
     pic=[]
-    if isinstance(card, dict):
-        raw = card
-    else:
-        raw = json.loads(card)
+    raw = card["modules"]["module_dynamic"]
+    rawfwd = card
+
     if type == "DYNAMIC_TYPE_FORWARD":
         # 转发动态卡片
-        rtype=raw["item"]["orig_type"]
-        text=raw["item"]["content"]
-        orange_text = raw.get("origin")
+        rtype=rawfwd["orig"]["type"]
+        text=raw["desc"]["text"]
+        orange_text = rawfwd.get("orig")
 
         if orange_text is not None:
             subres = bcard(rtype, orange_text)
@@ -32,22 +31,22 @@ def bcard(type,card):
         return {"c":c,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_DRAW":
         # 相册投稿
-        text=raw["item"]["description"]
-        for pitem in raw["item"]["pictures"]:
-            pic.append(pitem["img_src"])
+        text=raw["desc"]["text"]
+        for pitem in raw["major"]["draw"]["items"]:
+            pic.append(pitem["src"])
         print("2")
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_WORD":
         # 文字动态
-        text=raw["item"]["content"]
+        text=raw["desc"]["text"]
         print("4")
         return {"c":text,"url":url,"pic":pic}
-    if type == "DYNAMIC_TYPE_AV11":
+    if type == "DYNAMIC_TYPE_AV":
         # 视频动态
-        avh=raw["aid"]
+        avh=raw["major"]["archive"]["aid"]
         url.append("视频地址: https://www.bilibili.com/video/av"+str(avh))
-        text="【{}】\n{}".format(raw["title"],raw["dynamic"])
-        pic.append(raw["pic"])
+        text="【{}】\n{}".format(raw["major"]["archive"]["title"],raw["major"]["archive"]["desc"])
+        pic.append(raw["major"]["archive"]["cover"])
         print("8")
         return {"c":text,"url":url,"pic":pic}
     if type == "DYNAMIC_TYPE_ARTICLE":
@@ -60,48 +59,52 @@ def bcard(type,card):
             pic.append(pitem)
         print("64")
         return {"c":text,"url":url,"pic":pic}
+
+    """ 因极其罕见，没有样本，故不再支持
     if type == "DYNAMIC_TYPE_MUSIC":
         # 音频动态
-        auid=raw["id"]
-        text="【{}】\n{}".format(raw["title"],raw["intro"])
+        auid=raw["major"]["archive"]["id"]
+        text="【{}】\n{}".format(raw["major"]["archive"]["title"],raw["major"]["archive"]["desc"])
         url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
-        pic.append(raw["cover"])
+        pic.append(raw["major"]["archive"]["cover"])
         print("256")
         return {"c":text,"url":url,"pic":pic}
+    """
+
     if "DYNAMIC_TYPE_LIVE" in type or type == "DYNAMIC_TYPE_NONE":
-        # 直播动态
+        # 直播动态或无效动态
         # 应该忽略
         print("4308")
         return None
 
     else:
         print(raw)
-        print("Unknown")
+        print("-1")
         return {"c":"未知类型{}\n请反馈至 https://github.com/ybw2016v/bilibili2notes/issues".format(type),"url":[],"pic":[]}
 
     
 
 
-def bynamic(bdata):
+def bynamic(index, bdata):
     """
     解析b站动态数据API
     """
     if "置顶" not in bdata.get("modules", {}).get("module_tag", {}).get("text", "") or (bdata.get("visible", True) is not True):
         btype=bdata["type"]
         pubtime=bdata["modules"]["module_author"]["pub_ts"]
-        res=bcard(btype,bdata["modules"]["module_dynamic"])
+        res=bcard(btype, bdata)
         if res is None:
             return None
         dyid=bdata["id_str"]
         res["url"].append("https://t.bilibili.com/"+dyid)
         if "id_str" in bdata.get("orig", {}):
-            if bdata["orig"]["id_str"]!="0":
+            if bdata["orig"]["id_str"] not in ["0", None]:
                 res["url"].append("https://t.bilibili.com/"+bdata["orig"]["id_str"])
         res["time"]=pubtime
 
         return res
 
     else:
-        print("置顶或不可见")
-        print( bool("置顶" in bdata.get("modules", {}).get("module_tag", {}).get("text", "") ))
-        print(bdata.get("visible", True))
+        print("第", index + 1, "项为置顶或不可见。如有疑问请提供以下的两个条件判断结果")
+        print("判断条件1: ", bool("置顶" in bdata.get("modules", {}).get("module_tag", {}).get("text", "") ))
+        print("判断条件2: ", bdata.get("visible", True))
