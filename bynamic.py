@@ -55,7 +55,7 @@ def bcard(type, card):
         aid = abase["id"]
         text="【{}】\n{}".format(abase["title"],abase['desc'])
         url.append("专栏地址: https://www.bilibili.com/read/cv"+str(aid))
-        for pitem in abase["covers"][0]:
+        for pitem in abase["covers"]:
             pic.append(pitem)
         print("64")
         return {"c":text,"url":url,"pic":pic}
