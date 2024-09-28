@@ -3,10 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-db.json
-last.json
-last
-
 # C extensions
 *.so
 

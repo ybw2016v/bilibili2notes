@@ -4,15 +4,15 @@ def bcard(type, card):
     """
     解析b站API返回卡片数据
     """
-    url=[]
-    pic=[]
+    url = []
+    pic = []
     raw = card["modules"]["module_dynamic"]
     rawfwd = card
 
     if type == "DYNAMIC_TYPE_FORWARD":
         # 转发动态卡片
-        rtype=rawfwd["orig"]["type"]
-        text=raw["desc"]["text"]
+        rtype = rawfwd["orig"]["type"]
+        text = raw["desc"]["text"]
         orange_text = rawfwd.get("orig")
 
         if orange_text is not None:
@@ -28,47 +28,47 @@ def bcard(type, card):
 
         print("1")
 
-        return {"c":c,"url":url,"pic":pic}
+        return {"c": c, "url": url, "pic": pic}
     if type == "DYNAMIC_TYPE_DRAW":
         # 相册投稿
-        text=raw["desc"]["text"]
+        text = raw["desc"]["text"]
         for pitem in raw["major"]["draw"]["items"]:
             pic.append(pitem["src"])
         print("2")
-        return {"c":text,"url":url,"pic":pic}
+        return {"c": text, "url": url, "pic": pic}
     if type == "DYNAMIC_TYPE_WORD":
         # 文字动态
-        text=raw["desc"]["text"]
+        text = raw["desc"]["text"]
         print("4")
-        return {"c":text,"url":url,"pic":pic}
+        return {"c": text, "url": url, "pic": pic}
     if type == "DYNAMIC_TYPE_AV":
         # 视频动态
-        avh=raw["major"]["archive"]["aid"]
-        url.append("视频地址: https://www.bilibili.com/video/av"+str(avh))
-        text="【{}】\n{}".format(raw["major"]["archive"]["title"],raw["major"]["archive"]["desc"])
+        avh = raw["major"]["archive"]["aid"]
+        url.append("视频地址: https://www.bilibili.com/video/av" + str(avh))
+        text = "【{}】\n{}".format(raw["major"]["archive"]["title"], raw["major"]["archive"]["desc"])
         pic.append(raw["major"]["archive"]["cover"])
         print("8")
-        return {"c":text,"url":url,"pic":pic}
+        return {"c": text,"url": url,"pic": pic}
     if type == "DYNAMIC_TYPE_ARTICLE":
         # 专栏动态
         abase = raw["major"]["article"]
         aid = abase["id"]
-        text="【{}】\n{}".format(abase["title"],abase['desc'])
-        url.append("专栏地址: https://www.bilibili.com/read/cv"+str(aid))
+        text = "【{}】\n{}".format(abase["title"], abase['desc'])
+        url.append("专栏地址: https://www.bilibili.com/read/cv" + str(aid))
         for pitem in abase["covers"]:
             pic.append(pitem)
         print("64")
-        return {"c":text,"url":url,"pic":pic}
+        return {"c": text, "url": url, "pic": pic}
 
     """ 因极其罕见，没有样本，故不再支持
     if type == "DYNAMIC_TYPE_MUSIC":
         # 音频动态
-        auid=raw["major"]["archive"]["id"]
-        text="【{}】\n{}".format(raw["major"]["archive"]["title"],raw["major"]["archive"]["desc"])
-        url.append("音频地址: https://www.bilibili.com/audio/au"+str(auid))
+        auid = raw["major"]["archive"]["id"]
+        text = "【{}】\n{}".format(raw["major"]["archive"]["title"], raw["major"]["archive"]["desc"])
+        url.append("音频地址: https://www.bilibili.com/audio/au" + str(auid))
         pic.append(raw["major"]["archive"]["cover"])
         print("256")
-        return {"c":text,"url":url,"pic":pic}
+        return {"c": text ,"url": url, "pic": pic}
     """
 
     if "DYNAMIC_TYPE_LIVE" in type or type == "DYNAMIC_TYPE_NONE":
@@ -90,17 +90,17 @@ def bynamic(index, bdata):
     解析b站动态数据API
     """
     if "置顶" not in bdata.get("modules", {}).get("module_tag", {}).get("text", "") or (bdata.get("visible", True) is not True):
-        btype=bdata["type"]
-        pubtime=bdata["modules"]["module_author"]["pub_ts"]
-        res=bcard(btype, bdata)
+        btype = bdata["type"]
+        pubtime = bdata["modules"]["module_author"]["pub_ts"]
+        res = bcard(btype, bdata)
         if res is None:
             return None
-        dyid=bdata["id_str"]
-        res["url"].append("https://t.bilibili.com/"+dyid)
+        dyid = bdata["id_str"]
+        res["url"].append("https://t.bilibili.com/" + dyid)
         if "id_str" in bdata.get("orig", {}):
             if bdata["orig"]["id_str"] not in ["0", None]:
-                res["url"].append("https://t.bilibili.com/"+bdata["orig"]["id_str"])
-        res["time"]=pubtime
+                res["url"].append("https://t.bilibili.com/" + bdata["orig"]["id_str"])
+        res["time"] = pubtime
 
         return res
 
