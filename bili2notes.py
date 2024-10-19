@@ -6,7 +6,8 @@ from core import core_dog
 from par_dog_conf import Pardogconf
 from post_notes import *
 from rm_img import rm_exp_pic
-from bd import getdynamic, getCookie
+from bd import getdynamic,getdynamic_wbi
+from bubi import Bubi
 
 with open('./last', 'r') as timef:
     dogtime = int(timef.read())
@@ -19,6 +20,7 @@ with open('./db.json', 'r') as pic_time_dog_file:
 
 dog_conf_files = os.listdir('conf')
 
+bubi = Bubi()
 for conf_file in dog_conf_files:
     conf_file_path = os.path.join('conf', conf_file)
     dogconf = Pardogconf(conf_file_path)
@@ -40,7 +42,7 @@ for conf_file in dog_conf_files:
     if dogconf.Cookie:
         doglist = getdynamic(dogconf.Uid, dogconf.Cookie)
     else:
-        doglist = getdynamic(dogconf.Uid, getCookie())
+        doglist = getdynamic_wbi(dogconf.Uid, bubi)
     for doge in doglist[::-1]:
         if int(doge['time']) > last_dog_time:
             text,pic = core_dog(doge)
