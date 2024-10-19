@@ -25,7 +25,7 @@ def getdynamic(uid, cookie):
     }
     
     try:
-        res = r.get(URL, params=pm, headers=headers)
+        res = r.get(URL, params = pm, headers = headers)
         res.raise_for_status()
         res_text = res.json()
     except (r.exceptions.HTTPError, ValueError) as e:
