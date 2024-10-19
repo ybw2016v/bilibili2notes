@@ -23,5 +23,5 @@ class Pardogconf(object):
         self.Pex = conf_dog_items.get('Pex')
         self.Afr = conf_dog_items.get('Afr')
         self.Extime = conf_dog_items.get('Extime')
-        self.Cookie = conf_dog_items.get('Cookie').encode('utf-8').decode('unicode_escape') if conf_dog_items.get('Cookie') else ''
+        self.Cookie = conf_dog_items.get('Cookie').encode('utf-8').decode('unicode_escape') if conf_dog_items.get('Cookie') else None
     pass
