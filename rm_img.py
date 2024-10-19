@@ -19,7 +19,7 @@ def rm_exp_pic(dog_p):
     now_doge_w = int(time.mktime(now_doge))
     del_list = []
 
-    for dog_pic_item in pic_log_json:
+    for dog_pic_item in pic_log_json[dog_p.DogName]:
         print(f'{dog_pic_item} : {pic_log_json[dog_pic_item]}')
 
         if now_doge_w - int(dog_pic_item) > int(dog_rm_time):
