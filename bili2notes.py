@@ -12,18 +12,28 @@ from bd import getdynamic,getdynamic_wbi
 from bubi import Bubi
 
 bubi = Bubi()
-with open('./last', 'r') as timef:
-    dogtime = int(timef.read())
+def read_time_file(dog_name):
+    try:
+        with open(f'./last_{dog_name}', 'r') as timef:
+            return int(timef.read())
+    except FileNotFoundError:
+        return int(time.mktime(time.gmtime()) - 86400)
 
-with open('./last.json', 'r') as time_dog_file:
-    time_dog = json.loads(time_dog_file.read())
 
-with open('./db.json', 'r') as pic_time_dog_file:
-    pic_time_dog = json.loads(pic_time_dog_file.read())
+def read_json_file(file_path, default_value):
+    try:
+        with open(file_path, 'r') as json_file:
+            return json.loads(json_file.read())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return default_value
 
-dog_conf_files = os.listdir('conf')
 
-for conf_file in dog_conf_files:
+def write_json_file(file_path, data):
+    with open(file_path, 'w') as json_file:
+        json_file.write(json.dumps(data))
+
+
+def process_dogconf(conf_file):
     conf_file_path = os.path.join('conf', conf_file)
     dogconf = Pardogconf(conf_file_path)
 
@@ -48,7 +58,7 @@ for conf_file in dog_conf_files:
     if dogconf.Cookie:
         doglist = getdynamic(dogconf.Uid, dogconf.Cookie)
     else:
-        doglist = getdynamic_wbi(dogconf.Uid, bubi)
+        doglist = getdynamic_wbi(dogconf.Uid,bubi)
 
     # for doge in doglist:
     #     if int(doge['time']) > last_dog_time or int(doge['time']) not in pic_time_dog[dogconf.DogName]:
