@@ -71,7 +71,7 @@ def process_dogconf(conf_file):
 
     doge_times = []
 
-    for doge in doglist:
+    for doge in doglist[::-1]:
         doge_time = int(doge['time'] - 28800)
         doge_times.append(doge_time)
 
@@ -112,3 +112,5 @@ with ThreadPoolExecutor(max_workers = 3) as executor:
     for conf_file in os.listdir('conf'):
         executor.submit(partial(process_dogconf, conf_file))
         time.sleep(5)
+# for conf_file in os.listdir('conf'):
+#     process_dogconf(conf_file)

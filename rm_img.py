@@ -20,18 +20,18 @@ def rm_exp_pic(dog_p):
     del_list = []
 
     for dog_pic_item in pic_log_json[dog_p.DogName]:
-        print(f'{dog_pic_item} : {pic_log_json[dog_pic_item]}')
+        print(f'{dog_pic_item} : {pic_log_json[dog_p.DogName][dog_pic_item]}')
 
         if now_doge_w - int(dog_pic_item) > int(dog_rm_time):
-            print(f'应该删除 {pic_log_json[dog_pic_item]}')
-            pic_id_list = pic_log_json[dog_pic_item]
+            print(f'应该删除 {pic_log_json[dog_p.DogName][dog_pic_item]}')
+            pic_id_list = pic_log_json[dog_p.DogName][dog_pic_item]
             for dog_id in pic_id_list:
                 dog_rd = dog_img_rm(dog_rm_url, dog_p.ApiKey, dog_id)
                 print(dog_rd)
             del_list.append(dog_pic_item)
 
     for del_item in del_list:
-        pic_log_json.pop(del_item)
+        pic_log_json[dog_p.DogName].pop(del_item)
     print(f'删除的记录: {del_list}')
 
     with open(pic_log_path, 'w') as pic_log_file:
