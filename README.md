@@ -1,3 +1,5 @@
+
+
 # bilibili2notes
 
 A python bot which can transfer bilibili dynamic to Misskey notes
@@ -88,7 +90,7 @@ Extime=1209600
 crontab -e
 ```
 
-添加定时任务，RSShub的缓存时间大约为20分钟，设置执行间隔大于这个数应该不会出问题。
+添加定时任务，由于已不再使用RSSHub，设置合理的执行间隔应该不会出问题。
 
 ```
 # m h  dom mon dow   command
